@@ -1,0 +1,51 @@
+# name of workflow
+name: Run Get Weather Daily
+
+# Controls when the workflow will run
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  schedule:
+    - cron:  "0,9 0,19"  # Runs every minute of 12th hour
+env:
+
+  GITHUB_USER_NAME: yqlin9512 # your github id
+  GITHUB_USER_EMAIL: 362990148@qq.com # your email address
+  
+  
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    name: update
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        
+      - name: Set up Python Env
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7        
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+          
+      - name: Run daily weather
+        run: |
+          python Get_Weather_Github.py
+          
+      - name: Push new Get_Weather.md
+        uses: github-actions-x/commit@v2.8
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Github Action Automatic Update weather"
+          files: README.md city_weather.csv
+          rebase: 'true'
+          name: ${{ env.GITHUB_USER_NAME }}
+          email: ${{ env.GITHUB_USER_EMAIL }}
