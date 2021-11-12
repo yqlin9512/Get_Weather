@@ -104,8 +104,8 @@ if __name__ == '__main__':
     list_url = 'http://www.weather.com.cn/weather1d/%(key)s.shtml'  # 气象网，查询实况天气，近24小时天气，以城市id查询
 
     ##路径配置
-    citypath = r'F:\python_project\weather\China_Weather_Website\city.json'
-    savefile = r'F:\python_project\weather\weather_data\city_weather.csv'
+    citypath = 'city.json'
+    savefile = 'city_weather.csv'
 
     #去重
     city_weather = pd.read_csv(savefile)
